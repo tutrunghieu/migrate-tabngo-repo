@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.nebula.mongo.MongoAccess;
 
-public class ParamParser
+public class DatabaseParams
 {
 	private String __host;
 	private String __port;
@@ -12,7 +12,7 @@ public class ParamParser
 	private String __out;
 	private String __show;
 
-	public ParamParser(String[] args) throws Exception 
+	public DatabaseParams(String[] args) throws Exception 
 	{
 		for(int n=args.length, k=1; k+1<n; )
 		{

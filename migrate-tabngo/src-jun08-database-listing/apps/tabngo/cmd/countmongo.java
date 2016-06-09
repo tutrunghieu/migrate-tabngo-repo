@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.bson.Document;
-import org.nebula.util.ParamParser;
+import org.nebula.util.DatabaseParams;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -16,7 +16,7 @@ public class countmongo
 {
 	public static void main(String[] args) throws Exception
 	{
-		ParamParser conf = new ParamParser(args);
+		DatabaseParams conf = new DatabaseParams(args);
 		String mongoHost = conf.getHost();
 		int mongoPort = conf.getPort();
 		String mongoBase = conf.getDatabaseName("data-egg");

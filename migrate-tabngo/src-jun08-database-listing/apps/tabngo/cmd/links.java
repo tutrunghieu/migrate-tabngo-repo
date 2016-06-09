@@ -6,7 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.bson.Document;
-import org.nebula.util.ParamParser;
+import org.nebula.mongo.MongoAccess;
+import org.nebula.util.DatabaseParams;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -16,7 +17,7 @@ public class links
 {
 	public static void main(String[] args) throws Exception
 	{
-		ParamParser conf = new ParamParser(args);
+		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
 		String mongoHost = conf.getHost();
 		int mongoPort = conf.getPort();
 		String mongoBase = conf.getDatabaseName("data-egg");
@@ -26,14 +27,16 @@ public class links
 
 		PrintWriter out = new PrintWriter(conf.getOutputFile());
 		
-		out.println("- database: " + mongoBase);
-		int cnt = 0;
 		for(String tk: db.listCollectionNames())
 		{
+			MongoAccess.tableCounter++;
+			
 			MongoCollection<Document> table = db.getCollection(tk);
 			
 			for(Document rj: table.find())
 			{
+				MongoAccess.objectCounter++;
+				
 				Map<String, String> row = new LinkedHashMap<String, String>();
 				
 				row.put("_id", rj.get("_id").toString());
@@ -45,23 +48,38 @@ public class links
 					String vj = (vj1==null ? "" : vj1.toString());
 					
 					if(vj.startsWith("http://") 
-							|| vj.startsWith("https://")) row.put(fj, vj);
+							|| vj.startsWith("https://")) 
+					{
+						row.put(fj, vj);
+					}
 				} //for each field
 				
-				if(row.keySet().size() > 2) { cnt++; out.println(row); }
+				if(row.keySet().size() > 2 ) 
+				{
+					MongoAccess.selectedCounter++; 
+					out.println( MongoAccess.writeJson(row) ); 
+				}
 			} //for each row
 		} //for each table
+		
+		out.println("//database: " + mongoBase);
+		out.println("//tables : " + MongoAccess.tableCounter);
+		out.println("//objects: " + MongoAccess.objectCounter);
+		out.println("//objects with links: " + MongoAccess.selectedCounter);
 		
 		out.close();
 		mongo.close();
 		
-		showFinal(mongoBase, cnt, conf);
+		showFinal(mongoBase, conf);
 	}
 
-	private static void showFinal(String mongoBase, int cnt, ParamParser conf)
+	private static void showFinal(String mongoBase, DatabaseParams conf)
 	throws Exception
 	{
-		System.out.println("Links in database " + mongoBase + ": " + cnt);
+		System.out.println("database: " + mongoBase);
+		System.out.println("tables : " + MongoAccess.tableCounter);
+		System.out.println("objects: " + MongoAccess.objectCounter);
+		System.out.println("links: " + MongoAccess.selectedCounter);
 	
 		if( conf.showResult()) 
 			Desktop.getDesktop().open(conf.getOutputFile());
