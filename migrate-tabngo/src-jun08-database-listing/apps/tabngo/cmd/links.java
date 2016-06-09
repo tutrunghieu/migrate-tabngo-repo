@@ -1,4 +1,4 @@
-package apps.tabngo.migrate;
+package apps.tabngo.cmd;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -9,7 +9,9 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class task2_list_values_having_http 
+import apps.tabngo.migrate.MongoAccess;
+
+public class links 
 {
 	public static void main(String[] args) throws Exception
 	{
