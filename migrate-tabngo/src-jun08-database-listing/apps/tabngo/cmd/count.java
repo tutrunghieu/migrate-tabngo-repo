@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.bson.Document;
+import org.nebula.mongo.MongoAccess;
 import org.nebula.util.DatabaseParams;
 
 import com.mongodb.MongoClient;
@@ -16,12 +17,18 @@ public class count
 {
 	public static void main1(String[] args) throws Exception
 	{
-		DatabaseParams conf = new DatabaseParams(args);
+		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
 		String mongoHost = conf.getHost();
 		int mongoPort = conf.getPort();
 		String mongoBase = conf.getDatabaseName("data-egg");
 		
-		int nof_tab = 0, nof_rows = 0;
+		checkLinks(mongoHost, mongoPort, mongoBase, conf);
+		showFinal(mongoBase, conf);
+	}
+
+	private static void checkLinks(String mongoHost, int mongoPort, String mongoBase, DatabaseParams conf)
+	throws Exception
+	{
 		Map<String, Integer> counters = new LinkedHashMap<String, Integer>(); 
 		
 		{
@@ -30,12 +37,12 @@ public class count
 
 			for(String tk: db.listCollectionNames())
 			{
+				MongoAccess.tableCounter++;
 				MongoCollection<Document> table = db.getCollection(tk);
-				int nk = (int)table.count();
 				
-				nof_tab++;
-				nof_rows += nk;
-				counters.put(tk, nk);
+				int t = (int)table.count();
+				MongoAccess.objectCounter += t;
+				counters.put(tk, t);
 			}
 			
 			mongo.close();			
@@ -45,23 +52,24 @@ public class count
 			PrintWriter out = new PrintWriter(conf.getOutputFile());
 			
 			out.println("database: " + mongoBase);
-			out.println("#tables: " + nof_tab);
+			out.println("#tables: " + MongoAccess.tableCounter);
+			out.println("#objects in total: " + MongoAccess.objectCounter);
 			
 			for(String tk: counters.keySet())
 				out.println("#objects in '"+tk+"': " + counters.get(tk));
 			
-			out.println("#objects in total: " + nof_rows);
-			
 			out.close();
-			
-			if( conf.showResult())
-				Desktop.getDesktop().open(conf.getOutputFile());
-			
-			System.out.println("See result at: " 
-					+ conf.getOutputFile().getAbsolutePath() );
-		}
+		}		
+	}
+
+	private static void showFinal(String mongoBase, DatabaseParams conf)
+	throws Exception
+	{
+		if( conf.showResult())
+			Desktop.getDesktop().open(conf.getOutputFile());
 		
-		return;
+		System.out.println("See result at: " 
+				+ conf.getOutputFile().getAbsolutePath() );		
 	}
 
 }

@@ -68,10 +68,7 @@ public class rows
 	private static void showFinal(String mongoBase, DatabaseParams conf)
 	throws Exception
 	{
-		System.out.println("database: " + mongoBase);
-		System.out.println("tables: " + MongoAccess.tableCounter);
-		System.out.println("objects: " + MongoAccess.objectCounter);
-		System.out.println("fields: " + MongoAccess.fieldCounter);
+		MongoAccess.printCounters(System.out, mongoBase);
 	
 		if( conf.showResult()) 
 			Desktop.getDesktop().open(conf.getOutputFile());

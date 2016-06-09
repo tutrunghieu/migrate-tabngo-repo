@@ -1,6 +1,7 @@
 package org.nebula.mongo;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -46,6 +47,23 @@ public class MongoAccess
 	{
 		try { return jsonEng.writeValueAsString(row); }
 		catch(Exception xp) { return null; }
+	}
+
+	public static void printCounters(PrintStream out, String mongoBase) 
+	{
+		out.println("database: " + mongoBase);
+		out.println("tables: " + MongoAccess.tableCounter);
+		out.println("objects: " + MongoAccess.objectCounter);
+		out.println("links: " + MongoAccess.selectedCounter);
+		
 	}	
 	
+	public static void printCounters(PrintWriter out, String mongoBase) 
+	{
+		out.println("database: " + mongoBase);
+		out.println("tables: " + MongoAccess.tableCounter);
+		out.println("objects: " + MongoAccess.objectCounter);
+		out.println("links: " + MongoAccess.selectedCounter);
+		
+	}	
 }

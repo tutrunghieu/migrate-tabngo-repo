@@ -71,10 +71,7 @@ public class links
 			} //for each row
 		} //for each table
 		
-		out.println("//database: " + mongoBase);
-		out.println("//tables: " + MongoAccess.tableCounter);
-		out.println("//objects: " + MongoAccess.objectCounter);
-		out.println("//links: " + MongoAccess.selectedCounter);
+		MongoAccess.printCounters(out, mongoBase);
 		
 		out.close();
 		mongo.close();		
@@ -83,10 +80,7 @@ public class links
 	private static void showFinal(String mongoBase, DatabaseParams conf)
 	throws Exception
 	{
-		System.out.println("database: " + mongoBase);
-		System.out.println("tables: " + MongoAccess.tableCounter);
-		System.out.println("objects: " + MongoAccess.objectCounter);
-		System.out.println("links: " + MongoAccess.selectedCounter);
+		MongoAccess.printCounters(System.out, mongoBase);
 	
 		if( conf.showResult()) 
 			Desktop.getDesktop().open(conf.getOutputFile());
