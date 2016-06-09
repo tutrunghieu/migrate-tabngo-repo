@@ -26,12 +26,21 @@ public class ParamParser
 			else if(nk.equals("-db")) __dbname = vk;			
 			else if(nk.equals("-out")) __out = vk;			
 			else if(nk.equals("-show")) __show = vk.toLowerCase();
-			else throw new Exception("Unknown switch");
+			else { printHelp(); throw new Exception("Unknown switch"); }
 		}
 		
 		return;
 	}
 	
+	private void printHelp() 
+	{
+		System.out.println("\t-h 12.34.56.78   to set the mongo host");		
+		System.out.println("\t-p 27017   to set the mongo port");		
+		System.out.println("\t-db mydatabase   to set the mongo database");		
+		System.out.println("\t-out myfile.txt   to set the output file");		
+		System.out.println("\t-show true   to decide whether to show the file");		
+	}
+
 	public String getHost()
 	{
 		return __host==null ? "localhost" : __host;

@@ -1,10 +1,11 @@
 package apps.tabngo.cmd;
 
-import java.io.File;
 import java.io.PrintWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.bson.Document;
-import org.nebula.mongo.MongoAccess;
+import org.nebula.util.ParamParser;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -14,38 +15,42 @@ public class links
 {
 	public static void main(String[] args) throws Exception
 	{
-//		MongoFrame f = new MongoFrame();
-//		f.setFormValues("localhost", 27017, "data-trenzi105");		
-		
-		String mongoHost = "localhost";
-		int mongoPort = 27017;
-		String mongoBase = "data-trenzi105";
+		ParamParser conf = new ParamParser(args);
+		String mongoHost = conf.getHost();
+		int mongoPort = conf.getPort();
+		String mongoBase = conf.getDatabaseName("data-egg");
 		
 		MongoClient mongo = new MongoClient(mongoHost, mongoPort);
 		MongoDatabase db = mongo.getDatabase(mongoBase);
 
-		File f = MongoAccess.getDesktopFile("out1-value-http.txt");
-		PrintWriter out = new PrintWriter(f);
+		PrintWriter out = new PrintWriter(conf.getOutputFile());
 		
 		out.println("- database: " + mongoBase);		
 		for(String tk: db.listCollectionNames())
 		{
-			out.println();
-			out.println("-- table: " + tk);
 			MongoCollection<Document> table = db.getCollection(tk);
 			
 			for(Document rj: table.find())
 			{
-				out.println("--- row: " + rj.get("_id"));
+				Map<String, String> row = new LinkedHashMap<String, String>();
+				
+				row.put("_id", rj.get("_id").toString());
+				
 				for(String fj: rj.keySet())
 				{
 					Object vj1 = rj.get(fj);
 					String vj = (vj1==null ? "" : vj1.toString());
 					
-					if(vj.startsWith("http://") || vj.startsWith("https://"))
-						out.println("----- " + fj + ": " + vj);
+					if(vj.startsWith("http://") 
+							|| vj.startsWith("https://")) row.put(fj, vj);
 				} //for each field
-			}
+				
+				if(row.keySet().size() > 1) 
+				{
+					row.put("_table", tk);
+					out.println(row);
+				}
+			} //for each row
 		} //for each table
 		
 		out.close();
