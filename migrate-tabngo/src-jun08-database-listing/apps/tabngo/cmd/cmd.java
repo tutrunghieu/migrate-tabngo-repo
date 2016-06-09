@@ -2,8 +2,9 @@ package apps.tabngo.cmd;
 
 import java.lang.reflect.Method;
 
-public class cmd {
-
+public class cmd 
+{
+	
 	public static void main(String[] args) throws Exception 
 	{
 		Class<?> cl = Class.forName(args[0]);

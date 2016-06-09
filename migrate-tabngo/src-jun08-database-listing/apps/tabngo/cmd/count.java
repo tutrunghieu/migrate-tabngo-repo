@@ -22,11 +22,11 @@ public class count
 		int mongoPort = conf.getPort();
 		String mongoBase = conf.getDatabaseName("data-egg");
 		
-		checkLinks(mongoHost, mongoPort, mongoBase, conf);
+		countObjects(mongoHost, mongoPort, mongoBase, conf);
 		showFinal(mongoBase, conf);
 	}
 
-	private static void checkLinks(String mongoHost, int mongoPort, String mongoBase, DatabaseParams conf)
+	private static void countObjects(String mongoHost, int mongoPort, String mongoBase, DatabaseParams conf)
 	throws Exception
 	{
 		Map<String, Integer> counters = new LinkedHashMap<String, Integer>(); 
