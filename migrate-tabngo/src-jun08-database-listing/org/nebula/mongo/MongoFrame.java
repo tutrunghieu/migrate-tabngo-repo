@@ -1,4 +1,4 @@
-package apps.tabngo.migrate;
+package org.nebula.mongo;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;

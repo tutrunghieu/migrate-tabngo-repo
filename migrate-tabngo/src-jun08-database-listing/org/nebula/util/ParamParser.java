@@ -2,7 +2,7 @@ package org.nebula.util;
 
 import java.io.File;
 
-import apps.tabngo.migrate.MongoAccess;
+import org.nebula.mongo.MongoAccess;
 
 public class ParamParser
 {

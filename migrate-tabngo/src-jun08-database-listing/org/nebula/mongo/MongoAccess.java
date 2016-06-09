@@ -1,4 +1,4 @@
-package apps.tabngo.migrate;
+package org.nebula.mongo;
 
 import java.io.File;
 import java.util.LinkedHashSet;
