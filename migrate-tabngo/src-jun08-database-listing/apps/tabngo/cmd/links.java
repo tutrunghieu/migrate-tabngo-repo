@@ -1,5 +1,6 @@
 package apps.tabngo.cmd;
 
+import java.awt.Desktop;
 import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,7 +26,8 @@ public class links
 
 		PrintWriter out = new PrintWriter(conf.getOutputFile());
 		
-		out.println("- database: " + mongoBase);		
+		out.println("- database: " + mongoBase);
+		int cnt = 0;
 		for(String tk: db.listCollectionNames())
 		{
 			MongoCollection<Document> table = db.getCollection(tk);
@@ -35,6 +37,7 @@ public class links
 				Map<String, String> row = new LinkedHashMap<String, String>();
 				
 				row.put("_id", rj.get("_id").toString());
+				row.put("_table", tk);
 				
 				for(String fj: rj.keySet())
 				{
@@ -45,25 +48,24 @@ public class links
 							|| vj.startsWith("https://")) row.put(fj, vj);
 				} //for each field
 				
-				if(row.keySet().size() > 1) 
-				{
-					row.put("_table", tk);
-					out.println(row);
-				}
+				if(row.keySet().size() > 2) { cnt++; out.println(row); }
 			} //for each row
 		} //for each table
 		
 		out.close();
-		
 		mongo.close();
-			
-//		
-//		MongoCollection<Document> t = db.getCollection(table);
-//		
-//		HtmlWriter out = new HtmlWriter(file);
-//		
-//		out.h1(table + " (" + t.count() + ")");
-//		out.table();
+		
+		showFinal(mongoBase, cnt, conf);
 	}
+
+	private static void showFinal(String mongoBase, int cnt, ParamParser conf)
+	throws Exception
+	{
+		System.out.println("Links in database " + mongoBase + ": " + cnt);
+	
+		if( conf.showResult()) 
+			Desktop.getDesktop().open(conf.getOutputFile());
+	}
+	
 
 }

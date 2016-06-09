@@ -1,5 +1,6 @@
 package apps.tabngo.cmd;
 
+import java.awt.Desktop;
 import java.io.PrintWriter;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ public class tree
 
 		PrintWriter out = new PrintWriter(conf.getOutputFile());
 		
+		int ntab = 0, nrows = 0, ncols = 0;
 		out.println("-- database: " + mongoBase);		
 		for(String tk: db.listCollectionNames())
 		{
@@ -35,15 +37,37 @@ public class tree
 			Set<String> fields = MongoAccess.listMongoFields(table);
 			
 			for(String fj: fields)
+			{
 				out.println("------ column: " + fj);
+				ncols++;
+			}
 			
 			for(Document rj: table.find())
+			{
 				out.println("------ row: " + rj);
+				nrows++;
+			}
 		} //for each table
 		
 		out.close();
 		
 		mongo.close();
+		
+		showFinal(mongoBase, ntab, ncols, nrows, conf);
 	}
 
+
+	private static void showFinal(String mongoBase, int ntab, int ncols, int nrows, ParamParser conf)
+	throws Exception
+	{
+		System.out.println("database=" + mongoBase);
+		System.out.println("ntabs=" + nrows);
+		System.out.println("nrows=" + nrows);
+		System.out.println("ncols=" + ncols);
+	
+		if( conf.showResult()) 
+			Desktop.getDesktop().open(conf.getOutputFile());
+	}
+	
+	
 }
