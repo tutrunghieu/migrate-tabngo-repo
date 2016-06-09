@@ -12,7 +12,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class tree 
+public class rows 
 {
 	public static void main1(String[] args) throws Exception
 	{
