@@ -1,4 +1,4 @@
-package tasks.list_rows;
+package apps.tabngo.migrate;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;

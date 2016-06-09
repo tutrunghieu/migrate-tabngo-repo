@@ -1,8 +1,7 @@
-package tasks.list_rows;
+package apps.tabngo.migrate;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.Set;
 
 import org.bson.Document;
 
@@ -10,7 +9,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class task1_list_all_rows 
+public class task2_list_values_having_http 
 {
 	public static void main(String[] args) throws Exception
 	{
@@ -24,29 +23,28 @@ public class task1_list_all_rows
 		MongoClient mongo = new MongoClient(mongoHost, mongoPort);
 		MongoDatabase db = mongo.getDatabase(mongoBase);
 
-		File f = MongoAccess.getDesktopFile("out1.txt");
+		File f = MongoAccess.getDesktopFile("out1-value-http.txt");
 		PrintWriter out = new PrintWriter(f);
 		
-		out.println("-- database: " + mongoBase);		
+		out.println("- database: " + mongoBase);		
 		for(String tk: db.listCollectionNames())
 		{
 			out.println();
-			out.println("---- table: " + tk);
+			out.println("-- table: " + tk);
 			MongoCollection<Document> table = db.getCollection(tk);
-			
-			Set<String> fields = MongoAccess.listMongoFields(table);
-			
-			for(String fj: fields)
-			{
-				out.println("------ column: " + fj);
-			} //for each field
 			
 			for(Document rj: table.find())
 			{
-				out.println("------ row: " + rj);
-			} //for each field
-			
-			
+				out.println("--- row: " + rj.get("_id"));
+				for(String fj: rj.keySet())
+				{
+					Object vj1 = rj.get(fj);
+					String vj = (vj1==null ? "" : vj1.toString());
+					
+					if(vj.startsWith("http://") || vj.startsWith("https://"))
+						out.println("----- " + fj + ": " + vj);
+				} //for each field
+			}
 		} //for each table
 		
 		out.close();
