@@ -14,7 +14,7 @@ import com.mongodb.client.MongoDatabase;
 
 public class tree 
 {
-	public static void main(String[] args) throws Exception
+	public static void main1(String[] args) throws Exception
 	{
 		DatabaseParams conf = new DatabaseParams(args);
 		String mongoHost = conf.getHost();
@@ -36,13 +36,12 @@ public class tree
 
 		PrintWriter out = new PrintWriter(conf.getOutputFile());
 		
-		out.println("-- database: " + mongoBase);		
+		out.println("--database: " + mongoBase);		
 		for(String tk: db.listCollectionNames())
 		{
 			MongoAccess.tableCounter++;
 			
-			out.println();
-			out.println("---- table: " + tk);
+			out.println("----table: " + tk);
 			MongoCollection<Document> table = db.getCollection(tk);
 			
 			Set<String> fields = MongoAccess.listMongoFields(table);
@@ -50,13 +49,13 @@ public class tree
 			for(String fj: fields)
 			{
 				MongoAccess.fieldCounter++;
-				out.println("------ column: " + fj);
+				out.println("------column: " + fj);
 			}
 			
 			for(Document rj: table.find())
 			{
 				MongoAccess.objectCounter++;
-				out.println("------ row: " + rj);
+				out.println("------row: " +  MongoAccess.writeJson(rj) );
 			}
 		} //for each table
 		
@@ -76,6 +75,9 @@ public class tree
 	
 		if( conf.showResult()) 
 			Desktop.getDesktop().open(conf.getOutputFile());
+		
+		System.out.println("See result at: " 
+				+ conf.getOutputFile().getAbsolutePath() );		
 	}
 	
 	

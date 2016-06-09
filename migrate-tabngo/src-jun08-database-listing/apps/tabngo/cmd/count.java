@@ -14,7 +14,7 @@ import com.mongodb.client.MongoDatabase;
 
 public class count 
 {
-	public static void main(String[] args) throws Exception
+	public static void main1(String[] args) throws Exception
 	{
 		DatabaseParams conf = new DatabaseParams(args);
 		String mongoHost = conf.getHost();
@@ -54,10 +54,11 @@ public class count
 			
 			out.close();
 			
-			System.out.println("See result at: " + conf.getOutputFile().getAbsolutePath() );
-			
 			if( conf.showResult())
 				Desktop.getDesktop().open(conf.getOutputFile());
+			
+			System.out.println("See result at: " 
+					+ conf.getOutputFile().getAbsolutePath() );
 		}
 		
 		return;

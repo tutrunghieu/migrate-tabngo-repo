@@ -15,7 +15,7 @@ import com.mongodb.client.MongoDatabase;
 
 public class links 
 {
-	public static void main(String[] args) throws Exception
+	public static void main1(String[] args) throws Exception
 	{
 		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
 		String mongoHost = conf.getHost();
@@ -66,15 +66,15 @@ public class links
 				if(row.keySet().size() > 2 ) 
 				{
 					MongoAccess.selectedCounter++; 
-					out.println(row); 
+					out.println( MongoAccess.writeJson(row) ); 
 				}
 			} //for each row
 		} //for each table
 		
 		out.println("//database: " + mongoBase);
-		out.println("//tables : " + MongoAccess.tableCounter);
+		out.println("//tables: " + MongoAccess.tableCounter);
 		out.println("//objects: " + MongoAccess.objectCounter);
-		out.println("//objects with links: " + MongoAccess.selectedCounter);
+		out.println("//links: " + MongoAccess.selectedCounter);
 		
 		out.close();
 		mongo.close();		
@@ -84,12 +84,15 @@ public class links
 	throws Exception
 	{
 		System.out.println("database: " + mongoBase);
-		System.out.println("tables : " + MongoAccess.tableCounter);
+		System.out.println("tables: " + MongoAccess.tableCounter);
 		System.out.println("objects: " + MongoAccess.objectCounter);
 		System.out.println("links: " + MongoAccess.selectedCounter);
 	
 		if( conf.showResult()) 
 			Desktop.getDesktop().open(conf.getOutputFile());
+		
+		System.out.println("See result at: " 
+				+ conf.getOutputFile().getAbsolutePath() );		
 	}
 	
 
