@@ -56,7 +56,7 @@ public class tree
 			for(Document rj: table.find())
 			{
 				MongoAccess.objectCounter++;
-				out.println("------ row: " + MongoAccess.writeJson(rj) );
+				out.println("------ row: " + rj);
 			}
 		} //for each table
 		

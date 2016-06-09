@@ -22,6 +22,15 @@ public class links
 		int mongoPort = conf.getPort();
 		String mongoBase = conf.getDatabaseName("data-egg");
 		
+		checkLinks(mongoHost, mongoPort, mongoBase, conf);
+		
+		showFinal(mongoBase, conf);
+	}
+
+	private static void checkLinks(String mongoHost, int mongoPort, String mongoBase, DatabaseParams conf)
+	throws Exception
+	{
+		
 		MongoClient mongo = new MongoClient(mongoHost, mongoPort);
 		MongoDatabase db = mongo.getDatabase(mongoBase);
 
@@ -57,7 +66,7 @@ public class links
 				if(row.keySet().size() > 2 ) 
 				{
 					MongoAccess.selectedCounter++; 
-					out.println( MongoAccess.writeJson(row) ); 
+					out.println(row); 
 				}
 			} //for each row
 		} //for each table
@@ -68,9 +77,7 @@ public class links
 		out.println("//objects with links: " + MongoAccess.selectedCounter);
 		
 		out.close();
-		mongo.close();
-		
-		showFinal(mongoBase, conf);
+		mongo.close();		
 	}
 
 	private static void showFinal(String mongoBase, DatabaseParams conf)

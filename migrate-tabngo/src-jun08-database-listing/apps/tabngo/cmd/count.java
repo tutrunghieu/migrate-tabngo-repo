@@ -12,7 +12,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class countmongo 
+public class count 
 {
 	public static void main(String[] args) throws Exception
 	{
