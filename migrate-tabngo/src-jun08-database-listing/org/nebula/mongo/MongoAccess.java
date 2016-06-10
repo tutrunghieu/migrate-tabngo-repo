@@ -12,6 +12,8 @@ import org.nebula.util.DatabaseParams;
 
 import com.mongodb.client.MongoCollection;
 
+import apps.tabngo.cmd.models.WarChecksum;
+
 public class MongoAccess 
 {
 	private static ObjectMapper jsonEng = new ObjectMapper();
@@ -77,5 +79,11 @@ public class MongoAccess
 		out.println("objects: " + MongoAccess.objectCounter);
 		out.println("links: " + MongoAccess.selectedCounter);
 		
+	}
+
+	public static<T1> T1 readJson(File f2, Class<T1> cl, T1 dv) 
+	{
+		try { return jsonEng.readValue(f2, cl); }
+		catch(Exception xp) { return dv; }
 	}	
 }

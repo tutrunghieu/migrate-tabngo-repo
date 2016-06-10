@@ -13,6 +13,7 @@ public class DatabaseParams
 	private String __show;
 	private String __cmp;
 	private String __war;
+	private String __in;
 
 	public DatabaseParams(String[] args) throws Exception 
 	{
@@ -25,11 +26,14 @@ public class DatabaseParams
 			
 			if(nk.equals("-h")) __host = vk;
 			else if(nk.equals("-p")) __port = vk;
-			else if(nk.equals("-db")) __dbname = vk;			
-			else if(nk.equals("-out")) __out = vk;			
-			else if(nk.equals("-cmp")) __cmp = vk;			
-			else if(nk.equals("-show")) __show = vk.toLowerCase();
+			else if(nk.equals("-db")) __dbname = vk;
+			
+			else if(nk.equals("-in")) __in = vk;			
+			else if(nk.equals("-out")) __out = vk;
 			else if(nk.equals("-war")) __war = vk;
+			else if(nk.equals("-cmp")) __cmp = vk;
+			
+			else if(nk.equals("-show")) __show = vk.toLowerCase();
 			else { printHelp(); throw new Exception("Unknown switch"); }
 		}
 		
@@ -87,6 +91,12 @@ public class DatabaseParams
 		if(__show == null) return false;
 		
 		return __show.equals("true") || __show.equals("yes"); 
+	}
+
+	public File getInputFile() 
+	{
+		__in = __in.replace("$", MongoAccess.getDesktopFile().getAbsolutePath());		
+		return __in==null ? null:  new File(__in);
 	}
 
 }

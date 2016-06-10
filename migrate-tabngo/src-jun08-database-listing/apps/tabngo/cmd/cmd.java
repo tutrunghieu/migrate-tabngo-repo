@@ -1,15 +1,20 @@
 package apps.tabngo.cmd;
 
 import org.nebula.mongo.MongoAccess;
+import org.nebula.util.CommandTarget;
 import org.nebula.util.DatabaseParams;
 import org.nebula.util.TargetController;
 
-public class cmd 
+public class cmd extends CommandTarget
 {
 	public static void main(String[] args) throws Exception 
 	{
-		args = "war-sum   -war $/migrate-tabngo.jar    -out  $/out-check1.txt".split("\\s+"); 
-
+//		args = "war-sum  -show true   -war $/migrate-tabngo.jar    -out  $/out-check1.txt".split("\\s+"); 
+//		args = "war-sumtar -show true   -war $/migrate-tabngo.jar   -cmp $/out-check1.txt     -out  $/out-done1.txt".split("\\s+"); 
+//		args = "folder-sum -show true   -in c:/opt/apps   -out  $/out-check2.txt".split("\\s+"); 
+//		args = "folder-sumtar -show true   -in c:/opt/apps   -cmp $/out-check2.txt    -out  $/out-done2.txt".split("\\s+"); 
+		args = "mongo-sum   -db data-trenzi105   -out $/out-check3.txt".split("\\s+");
+		
 		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
 				
 		TargetController tar = findTargetController(args[0]);
@@ -21,14 +26,5 @@ public class cmd
 		tar.processRequest();
 	}
 
-	private static TargetController findTargetController(String url) 
-	throws Exception
-	{
-		url = cmd.class.getPackage().getName() + "." + url.replace('-', '_');
-		System.out.println("Executing " + url);
-		
-		Class<?> cl = Class.forName(url);
-		return (TargetController) cl.newInstance();
-	}
 
 }
