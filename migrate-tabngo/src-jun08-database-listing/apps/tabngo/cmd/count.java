@@ -13,17 +13,19 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class count 
+public class count extends TargetController 
 {
-	public static void main1(String[] args) throws Exception
+
+	@Override
+	public void processRequest() throws Exception
 	{
-		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
-		String mongoHost = conf.getHost();
-		int mongoPort = conf.getPort();
-		String mongoBase = conf.getDatabaseName("data-egg");
+//		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
+//		String mongoHost = conf.getHost();
+//		int mongoPort = conf.getPort();
+//		String mongoBase = conf.getDatabaseName("data-egg");
 		
-		countObjects(mongoHost, mongoPort, mongoBase, conf);
-		showFinal(mongoBase, conf);
+		countObjects(mongoHost, mongoPort, mongoBase, mongoArgs);
+		showFinal(mongoBase, mongoArgs);
 	}
 
 	private static void countObjects(String mongoHost, int mongoPort, String mongoBase, DatabaseParams conf)
@@ -71,5 +73,6 @@ public class count
 		System.out.println("See result at: " 
 				+ conf.getOutputFile().getAbsolutePath() );		
 	}
+
 
 }

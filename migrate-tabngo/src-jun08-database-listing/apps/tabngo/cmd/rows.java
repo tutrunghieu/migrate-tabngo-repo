@@ -12,17 +12,13 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class rows 
+public class rows  extends TargetController
 {
-	public static void main1(String[] args) throws Exception
+	@Override
+	public void processRequest() throws Exception
 	{
-		DatabaseParams conf = new DatabaseParams(args);
-		String mongoHost = conf.getHost();
-		int mongoPort = conf.getPort();
-		String mongoBase = conf.getDatabaseName("data-egg");
-		
-		printTree(conf, mongoHost, mongoPort, mongoBase);
-		showFinal(mongoBase, conf);
+		printTree(mongoArgs, mongoHost, mongoPort, mongoBase);
+		showFinal(mongoBase, mongoArgs);
 	}
 
 
@@ -76,6 +72,7 @@ public class rows
 		System.out.println("See result at: " 
 				+ conf.getOutputFile().getAbsolutePath() );		
 	}
-	
+
+
 	
 }

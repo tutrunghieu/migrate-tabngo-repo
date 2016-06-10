@@ -13,18 +13,13 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class links 
+public class links  extends TargetController
 {
-	public static void main1(String[] args) throws Exception
+	@Override
+	public void processRequest() throws Exception 
 	{
-		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
-		String mongoHost = conf.getHost();
-		int mongoPort = conf.getPort();
-		String mongoBase = conf.getDatabaseName("data-egg");
-		
-		checkLinks(mongoHost, mongoPort, mongoBase, conf);
-		
-		showFinal(mongoBase, conf);
+		checkLinks(mongoHost, mongoPort, mongoBase, mongoArgs);
+		showFinal(mongoBase, mongoArgs);
 	}
 
 	private static void checkLinks(String mongoHost, int mongoPort, String mongoBase, DatabaseParams conf)
@@ -88,6 +83,7 @@ public class links
 		System.out.println("See result at: " 
 				+ conf.getOutputFile().getAbsolutePath() );		
 	}
-	
+
+
 
 }

@@ -1,16 +1,36 @@
 package apps.tabngo.cmd;
 
-import java.lang.reflect.Method;
+import org.nebula.mongo.MongoAccess;
+import org.nebula.util.DatabaseParams;
 
 public class cmd 
 {
-	
 	public static void main(String[] args) throws Exception 
 	{
-		Class<?> cl = Class.forName(args[0]);
+		args = new String[] { "links",  
+				"-db", "data-trenzi105", 
+				"-show", "true", 
+				"-out", "out3-show-tree.txt" }; 
+
+		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
+				
+		TargetController tar = findTargetController(args[0]);
+		tar.mongoHost = conf.getHost();
+		tar.mongoPort = conf.getPort();
+		tar.mongoBase = conf.getDatabaseName("data-egg101");
+		tar.mongoArgs = conf;
 		
-		Method m = cl.getMethod("main1", String[].class);
-		m.invoke(null, (Object)args);
+		tar.processRequest();
+	}
+
+	private static TargetController findTargetController(String url) 
+	throws Exception
+	{
+		url = cmd.class.getPackage().getName() + "." + url;
+		System.out.println("Executing " + url);
+		
+		Class<?> cl = Class.forName(url);
+		return (TargetController) cl.newInstance();
 	}
 
 }
