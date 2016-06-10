@@ -13,7 +13,7 @@ public class cmd extends CommandTarget
 //		args = "war-sumtar -show true   -war $/migrate-tabngo.jar   -cmp $/out-check1.txt     -out  $/out-done1.txt".split("\\s+"); 
 //		args = "folder-sum -show true   -in c:/opt/apps   -out  $/out-check2.txt".split("\\s+"); 
 //		args = "folder-sumtar -show true   -in c:/opt/apps   -cmp $/out-check2.txt    -out  $/out-done2.txt".split("\\s+"); 
-		args = "mongo-sum   -db data-trenzi105   -out $/out-check3.txt".split("\\s+");
+		args = "mongo-sum -show true  -db data-trenzi105   -out $/out-check3.txt".split("\\s+");
 		
 		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
 				

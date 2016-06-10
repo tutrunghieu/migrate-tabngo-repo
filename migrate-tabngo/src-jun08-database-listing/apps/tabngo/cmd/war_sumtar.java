@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import org.nebula.mongo.MongoAccess;
 import org.nebula.util.TargetController;
 
-import apps.tabngo.cmd.models.MigoChecksum;
+import apps.tabngo.cmd.models.ChecksumUtils;
 import apps.tabngo.cmd.models.WarChecksum;
 
 public class war_sumtar extends TargetController
@@ -25,7 +25,7 @@ public class war_sumtar extends TargetController
 		System.out.println("against file: " + f2);
 		System.out.println("output to: " + f3);
 		
-		MigoChecksum.compare(fromWar(f1), fromJson(f2), f3);
+		ChecksumUtils.compare(fromWar(f1), fromJson(f2), f3);
 		
 		if(this.mongoArgs.showResult()) Desktop.getDesktop().open(f3);
 	}

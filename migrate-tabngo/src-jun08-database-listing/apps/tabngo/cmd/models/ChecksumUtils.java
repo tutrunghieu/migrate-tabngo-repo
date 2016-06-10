@@ -5,14 +5,14 @@ import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-public class MigoChecksum 
+public class ChecksumUtils 
 {
 	public static boolean compare(Object x, Object y, File f) 
 	throws Exception
 	{
 		f.getParentFile().mkdirs();
 		PrintWriter out = new PrintWriter(f);
-		boolean bk = MigoChecksum.compare(x, y, out);
+		boolean bk = ChecksumUtils.compare(x, y, out);
 		out.println("FinalResult: " + bk);
 		out.close();
 		
