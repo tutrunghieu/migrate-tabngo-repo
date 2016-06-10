@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.nebula.util.TargetController;
 
-import apps.tabngo.cmd.models.FolderChecksum;
 import apps.tabngo.cmd.models.ChecksumUtils;
 import apps.tabngo.cmd.models.MongoChecksum;
 

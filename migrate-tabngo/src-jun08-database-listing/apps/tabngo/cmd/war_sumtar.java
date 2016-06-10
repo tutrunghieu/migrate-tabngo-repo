@@ -2,7 +2,6 @@ package apps.tabngo.cmd;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.PrintWriter;
 
 import org.nebula.mongo.MongoAccess;
 import org.nebula.util.TargetController;
