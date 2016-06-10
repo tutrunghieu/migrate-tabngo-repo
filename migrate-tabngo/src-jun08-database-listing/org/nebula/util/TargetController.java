@@ -1,6 +1,4 @@
-package apps.tabngo.cmd;
-
-import org.nebula.util.DatabaseParams;
+package org.nebula.util;
 
 public abstract class TargetController 
 {

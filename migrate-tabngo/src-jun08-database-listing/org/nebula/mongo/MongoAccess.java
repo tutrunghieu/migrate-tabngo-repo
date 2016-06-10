@@ -31,6 +31,11 @@ public class MongoAccess
 		return new File(System.getProperty("user.home") + "/Desktop/" + f);
 	}
 	
+	public static File getDesktopFile() 
+	{
+		return new File(System.getProperty("user.home") + "/Desktop");
+	}
+	
 	public static int tableCounter;
 	public static int objectCounter;
 	public static int fieldCounter;
@@ -43,6 +48,13 @@ public class MongoAccess
 		catch(Exception xp) {}
 	}
 	
+	public static void writeJson(Object row, File out) 
+	{
+		out.getParentFile().mkdirs();
+		try { jsonEng.writeValue(out, row); }
+		catch(Exception xp) {}
+	}
+
 	public static String writeJson(Object row) 
 	{
 		try { return jsonEng.writeValueAsString(row); }

@@ -11,6 +11,8 @@ public class DatabaseParams
 	private String __dbname;
 	private String __out;
 	private String __show;
+	private String __cmp;
+	private String __war;
 
 	public DatabaseParams(String[] args) throws Exception 
 	{
@@ -25,7 +27,9 @@ public class DatabaseParams
 			else if(nk.equals("-p")) __port = vk;
 			else if(nk.equals("-db")) __dbname = vk;			
 			else if(nk.equals("-out")) __out = vk;			
+			else if(nk.equals("-cmp")) __cmp = vk;			
 			else if(nk.equals("-show")) __show = vk.toLowerCase();
+			else if(nk.equals("-war")) __war = vk;
 			else { printHelp(); throw new Exception("Unknown switch"); }
 		}
 		
@@ -39,6 +43,7 @@ public class DatabaseParams
 		System.out.println("\t-db mydatabase   to set the mongo database");		
 		System.out.println("\t-out myfile.txt   to set the output file");		
 		System.out.println("\t-show true   to decide whether to show the file");		
+		System.out.println("\t-cmp checksum1.txt   to compare the current with the checksum");		
 	}
 
 	public String getHost()
@@ -58,9 +63,23 @@ public class DatabaseParams
 
 	public File getOutputFile() 
 	{
+		__out = __out.replace("$", MongoAccess.getDesktopFile().getAbsolutePath());
+		
 		return __out==null 
 				? MongoAccess.getDesktopFile("out1.txt")
 						: new File(__out);
+	}
+	
+	public File getWarFile() 
+	{
+		__war = __war.replace("$", MongoAccess.getDesktopFile().getAbsolutePath());		
+		return __war==null ? null:  new File(__war);
+	}
+
+	public File getCmpFile() 
+	{
+		__cmp = __cmp.replace("$", MongoAccess.getDesktopFile().getAbsolutePath());		
+		return __cmp==null ? null:  new File(__cmp);
 	}
 	
 	public boolean showResult()
