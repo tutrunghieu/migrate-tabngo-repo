@@ -1,9 +1,8 @@
-package apps.tabngo.cmd;
+package apps.tabngo.cmd.unused;
 
 import java.awt.Desktop;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Set;
 
 import org.bson.Document;
 import org.nebula.mongo.MongoAccess;
@@ -14,16 +13,18 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class links  extends TargetController
+public class rows  extends TargetController
 {
 	@Override
-	public void processRequest() throws Exception 
+	public void processRequest() throws Exception
 	{
-		checkLinks(mongoHost, mongoPort, mongoBase, mongoArgs);
+		printTree(mongoArgs, mongoHost, mongoPort, mongoBase);
 		showFinal(mongoBase, mongoArgs);
 	}
 
-	private static void checkLinks(String mongoHost, int mongoPort, String mongoBase, DatabaseParams conf)
+
+	private static void printTree(DatabaseParams conf,
+			String mongoHost, int mongoPort, String mongoBase) 
 	throws Exception
 	{
 		
@@ -32,46 +33,34 @@ public class links  extends TargetController
 
 		PrintWriter out = new PrintWriter(conf.getOutputFile());
 		
+		out.println("--database: " + mongoBase);		
 		for(String tk: db.listCollectionNames())
 		{
 			MongoAccess.tableCounter++;
 			
+			out.println("----table: " + tk);
 			MongoCollection<Document> table = db.getCollection(tk);
+			
+			Set<String> fields = MongoAccess.listMongoFields(table);
+			
+			for(String fj: fields)
+			{
+				MongoAccess.fieldCounter++;
+				out.println("------column: " + fj);
+			}
 			
 			for(Document rj: table.find())
 			{
 				MongoAccess.objectCounter++;
-				
-				Map<String, String> row = new LinkedHashMap<String, String>();
-				
-				row.put("_id", rj.get("_id").toString());
-				row.put("_table", tk);
-				
-				for(String fj: rj.keySet())
-				{
-					Object vj1 = rj.get(fj);
-					String vj = (vj1==null ? "" : vj1.toString());
-					
-					if(vj.startsWith("http://") 
-							|| vj.startsWith("https://")) 
-					{
-						row.put(fj, vj);
-					}
-				} //for each field
-				
-				if(row.keySet().size() > 2 ) 
-				{
-					MongoAccess.selectedCounter++; 
-					out.println( MongoAccess.writeJson(row) ); 
-				}
-			} //for each row
+				out.println("------row: " +  MongoAccess.writeJson(rj) );
+			}
 		} //for each table
 		
-		MongoAccess.printCounters(out, mongoBase);
-		
 		out.close();
+		
 		mongo.close();		
 	}
+
 
 	private static void showFinal(String mongoBase, DatabaseParams conf)
 	throws Exception
@@ -86,5 +75,5 @@ public class links  extends TargetController
 	}
 
 
-
+	
 }

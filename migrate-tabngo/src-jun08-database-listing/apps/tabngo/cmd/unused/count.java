@@ -1,4 +1,4 @@
-package apps.tabngo.cmd;
+package apps.tabngo.cmd.unused;
 
 import java.awt.Desktop;
 import java.io.PrintWriter;
