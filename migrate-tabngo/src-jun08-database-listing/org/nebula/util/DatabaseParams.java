@@ -14,6 +14,8 @@ public class DatabaseParams
 	private String __cmp;
 	private String __war;
 	private String __in;
+	private String __strA;
+	private String __strB;
 
 	public DatabaseParams(String[] args) throws Exception 
 	{
@@ -32,6 +34,9 @@ public class DatabaseParams
 			else if(nk.equals("-out")) __out = vk;
 			else if(nk.equals("-war")) __war = vk;
 			else if(nk.equals("-cmp")) __cmp = vk;
+			
+			else if(nk.equals("-rfrom")) __strA = vk;			
+			else if(nk.equals("-rto")) __strB = vk;			
 			
 			else if(nk.equals("-show")) __show = vk.toLowerCase();
 			else { printHelp(); throw new Exception("Unknown switch"); }
@@ -99,4 +104,13 @@ public class DatabaseParams
 		return __in==null ? null:  new File(__in);
 	}
 
+	public String getReplaceFrom() 
+	{
+		return __strA;
+	}
+
+	public String getReplaceTo() 
+	{
+		return __strB;
+	}
 }

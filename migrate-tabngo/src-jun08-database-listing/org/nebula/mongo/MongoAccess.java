@@ -3,16 +3,22 @@ package org.nebula.mongo;
 import java.io.File;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.bson.Document;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.nebula.util.DatabaseParams;
 
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
-import apps.tabngo.cmd.models.WarChecksum;
+import apps.tabngo.cmd.models.MongoChecksum;
 
 public class MongoAccess 
 {
@@ -85,5 +91,79 @@ public class MongoAccess
 	{
 		try { return jsonEng.readValue(f2, cl); }
 		catch(Exception xp) { return dv; }
-	}	
+	}
+
+	public static void replaceValues(String host, int port, String dbname, String strA, String strB) 
+	throws Exception
+	{
+		MongoChecksum res = new MongoChecksum();
+		
+		res.dbname = dbname;
+		
+		MongoClient mongo = new MongoClient(host, port);
+		MongoDatabase db = mongo.getDatabase(dbname);
+
+		for(String tk: db.listCollectionNames())
+		{
+			MongoCollection<Document> table = db.getCollection(tk);
+			List<Document> items = readTable(table);
+			for(Document ik: items) replaceValues(ik, strA, strB);
+			
+			table.drop();
+			table.insertMany(items);
+		}
+			
+		mongo.close();			
+	}
+
+	private static void replaceValues(Document obj, String strA, String strB)
+	{
+		for(String nk: obj.keySet())
+		{
+			Object vk1 = obj.get(nk);
+			String vk = (vk1==null ? "" : vk1.toString());
+			if( vk.startsWith(strA) )
+			{
+				vk = vk.replace(strA, strB);
+				obj.put(nk, vk);
+			}
+		}
+		
+		return;
+	}
+
+	private static List<Document> readTable(MongoCollection<Document> table)
+	{
+		List<Document> res = new ArrayList<Document>();
+		for(Document dk: table.find()) res.add(dk);
+		return res;
+	}
+
+	public static void dump(String host, int port, String dbname, File file)
+	throws Exception
+	{
+		ObjectMapper eng = new ObjectMapper();
+		PrintWriter out = new PrintWriter(file);
+		
+		MongoClient mongo = new MongoClient(host, port);
+		MongoDatabase db = mongo.getDatabase(dbname);
+		
+
+		for(String tk: db.listCollectionNames())
+		{
+			MongoCollection<Document> table = db.getCollection(tk);
+			for(Document ik: table.find()) 
+			{
+				Map<String, Object> rk = new LinkedHashMap<String, Object>();
+				rk.put("_table", tk);
+				for(String nj: ik.keySet()) rk.put(nj, ik.get(nj));
+				out.println( eng.writeValueAsString(rk) );
+			}
+		}
+			
+		mongo.close();		
+		
+		out.close();
+	}
+	
 }
