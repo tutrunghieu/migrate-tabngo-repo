@@ -9,10 +9,10 @@ public class mongo_replace extends TargetController
 	@Override
 	public void processRequest() throws Exception 
 	{
-		System.out.println("Creating checksum file for WAR file");
+		System.out.println(this.getClass().getSimpleName());
 		String dbname = super.printParam("input: ", this.mongoArgs.getDatabaseName(""));
 		String host = super.printParam("host: ", this.mongoArgs.getHost() );
-		int port = super.printParam("port: ", this.mongoPort);
+		int port = super.printParam("port: ", this.mongoArgs.getPort());
 		String strA = super.printParam("rfrom: ", this.mongoArgs.getReplaceFrom() );
 		String strB = super.printParam("rto: ", this.mongoArgs.getReplaceTo() );
 		

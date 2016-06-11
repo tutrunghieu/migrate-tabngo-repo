@@ -20,10 +20,10 @@ public class count extends TargetController
 	@Override
 	public void processRequest() throws Exception
 	{
-//		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
-//		String mongoHost = conf.getHost();
-//		int mongoPort = conf.getPort();
-//		String mongoBase = conf.getDatabaseName("data-egg");
+		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
+		String mongoHost = conf.getHost();
+		int mongoPort = conf.getPort();
+		String mongoBase = conf.getDatabaseName("data-egg");
 		
 		countObjects(mongoHost, mongoPort, mongoBase, mongoArgs);
 		showFinal(mongoBase, mongoArgs);

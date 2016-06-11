@@ -19,14 +19,8 @@ public class cmd extends CommandTarget
 //				+ "-rfrom http://192.168.100.60:7070/ "
 //				+ "-rto http://hoang.dinh.hung.com:7070/").split("\\s+");
 		
-		DatabaseParams conf = MongoAccess.execArgs = new DatabaseParams(args);
-				
 		TargetController tar = findTargetController(args[0]);
-		tar.mongoHost = conf.getHost();
-		tar.mongoPort = conf.getPort();
-		tar.mongoBase = conf.getDatabaseName("data-egg101");
-		tar.mongoArgs = conf;
-		
+		tar.mongoArgs = MongoAccess.execArgs = new DatabaseParams(args);
 		tar.processRequest();
 	}
 

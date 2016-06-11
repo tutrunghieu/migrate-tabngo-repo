@@ -13,16 +13,16 @@ public class mongo_sumtar extends TargetController
 	public void processRequest() 
 	throws Exception 
 	{
-		System.out.println("Comparing mongo");
+		System.out.println(this.getClass().getSimpleName());
 		String f1 = super.printParam("input: ", this.mongoArgs.getDatabaseName(""));
 		String h = super.printParam("host: ", this.mongoArgs.getHost() );
-		int p = super.printParam("port: ", this.mongoPort);
+		int port = super.printParam("port: ", this.mongoArgs.getPort());
 		File f2 = super.printParam("checksum: ", this.mongoArgs.getCmpFile());
 		File f3 = super.printParam("output: ", this.mongoArgs.getOutputFile());
 		
 		
 		ChecksumUtils.compare(
-				MongoChecksum.fromFolder(h, p, f1), 
+				MongoChecksum.fromFolder(h, port, f1), 
 				MongoChecksum.fromJson(f2), f3);
 		
 		super.showFileIf(f3);

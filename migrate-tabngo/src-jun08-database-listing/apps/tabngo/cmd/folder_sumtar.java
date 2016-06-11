@@ -13,7 +13,8 @@ public class folder_sumtar extends TargetController
 	public void processRequest() 
 	throws Exception 
 	{
-		System.out.println("Comparing WAR to checksum");
+		System.out.println(this.getClass().getSimpleName());
+		
 		File f1 = super.printParam("war-file: ", this.mongoArgs.getInputFile());
 		File f2 = super.printParam("sum-file: ", this.mongoArgs.getCmpFile());
 		File f3 = super.printParam("output: ", this.mongoArgs.getOutputFile());

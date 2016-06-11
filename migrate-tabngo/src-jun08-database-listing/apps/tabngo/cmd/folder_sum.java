@@ -12,7 +12,8 @@ public class folder_sum extends TargetController
 	@Override
 	public void processRequest() throws Exception 
 	{
-		System.out.println("Creating checksum file for WAR file");
+		System.out.println(this.getClass().getSimpleName());
+		
 		File f1 = super.printParam("input: ", this.mongoArgs.getInputFile());
 		File f2 = super.printParam("output: ", this.mongoArgs.getOutputFile());
 		
