@@ -14,4 +14,9 @@ public class CommandTarget
 		return (TargetController) cl.newInstance();
 	}
 
+	public static String[] debugParams(String args) 
+	{
+		return args.split("\\s+");
+	}
+
 }

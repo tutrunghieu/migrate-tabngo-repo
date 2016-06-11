@@ -1,21 +1,26 @@
 package org.nebula.util;
 
 import java.io.File;
+import java.lang.reflect.Field;
 
 import org.nebula.mongo.MongoAccess;
 
 public class DatabaseParams
 {
-	private String __host;
-	private String __port;
-	private String __dbname;
-	private String __out;
-	private String __show;
-	private String __cmp;
-	private String __war;
-	private String __in;
-	private String __strA;
-	private String __strB;
+	public String __host;
+	public String __port;
+	public String __dbname;
+	public String __out;
+	public String __show;
+	public String __cmp;
+	public String __war;
+	public String __in;
+	
+	public String __sfile;
+	public String __tfile;
+	
+	public String __strA;
+	public String __strB;
 
 	public DatabaseParams(String[] args) throws Exception 
 	{
@@ -26,25 +31,38 @@ public class DatabaseParams
 			
 			System.out.println("Parameter [" + nk + "]=[" + vk + "]");
 			
-			if(nk.equals("-h")) __host = vk;
-			else if(nk.equals("-p")) __port = vk;
-			else if(nk.equals("-db")) __dbname = vk;
+			Field fk = fieldFromSwitch(nk);
+			if(fk == null)  { printHelp(); throw new Exception("Unknown switch " + nk); }
 			
-			else if(nk.equals("-in")) __in = vk;			
-			else if(nk.equals("-out")) __out = vk;
-			else if(nk.equals("-war")) __war = vk;
-			else if(nk.equals("-cmp")) __cmp = vk;
+			fk.set(this, vk);
 			
-			else if(nk.equals("-rfrom")) __strA = vk;			
-			else if(nk.equals("-rto")) __strB = vk;			
-			
-			else if(nk.equals("-show")) __show = vk.toLowerCase();
-			else { printHelp(); throw new Exception("Unknown switch"); }
+//			if(nk.equals("-h")) __host = vk;
+//			else if(nk.equals("-p")) __port = vk;
+//			else if(nk.equals("-db")) __dbname = vk;
+//			
+//			else if(nk.equals("-in")) __in = vk;			
+//			else if(nk.equals("-out")) __out = vk;
+//			else if(nk.equals("-war")) __war = vk;
+//			else if(nk.equals("-cmp")) __cmp = vk;
+//			
+//			else if(nk.equals("-rfrom")) __strA = vk;			
+//			else if(nk.equals("-rto")) __strB = vk;			
+//			
+//			else if(nk.equals("-show")) __show = vk.toLowerCase();
+//			else { printHelp(); throw new Exception("Unknown switch"); }
 		}
 		
 		return;
 	}
 	
+	private Field fieldFromSwitch(String nk) 
+	{
+		nk = "_" + nk.replace("-", "_");
+		
+		try { return this.getClass().getField(nk); } 
+		catch(Exception xp) { return null; }
+	}
+
 	private void printHelp() 
 	{
 		System.out.println("\t-h 12.34.56.78   to set the mongo host");		
@@ -112,5 +130,23 @@ public class DatabaseParams
 	public String getReplaceTo() 
 	{
 		return __strB;
+	}
+
+	public File getFile(String nk) 
+	throws Exception
+	{
+		Field fk = fieldFromSwitch(nk);
+		if(fk == null) return null;
+		
+		String vk = toString(fk.get(this), null);
+		if(vk == null) return null;
+	
+		vk = vk.replace("$", MongoAccess.getDesktopFile().getAbsolutePath());
+		return new File(vk);
+	}
+
+	private String toString(Object t, String dv) 
+	{
+		return t==null ? dv : t.toString();
 	}
 }

@@ -12,7 +12,6 @@ import java.util.Set;
 
 import org.bson.Document;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.nebula.util.DatabaseParams;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -48,7 +47,6 @@ public class MongoAccess
 	public static int objectCounter;
 	public static int fieldCounter;
 	public static int selectedCounter;
-	public static DatabaseParams execArgs;
 
 	public static void writeJson(Object row, PrintWriter out) 
 	{

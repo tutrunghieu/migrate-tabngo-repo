@@ -2,9 +2,9 @@ package apps.tabngo.cmd;
 
 import java.io.File;
 
+import org.nebula.mongo.ChecksumUtils;
 import org.nebula.util.TargetController;
 
-import apps.tabngo.cmd.models.ChecksumUtils;
 import apps.tabngo.cmd.models.MongoChecksum;
 
 public class mongo_sumtar extends TargetController
@@ -21,7 +21,7 @@ public class mongo_sumtar extends TargetController
 		File f3 = super.printParam("output: ", this.mongoArgs.getOutputFile());
 		
 		
-		ChecksumUtils.compare(
+		ChecksumUtils.compareObjects(
 				MongoChecksum.fromFolder(h, port, f1), 
 				MongoChecksum.fromJson(f2), f3);
 		
