@@ -2,7 +2,6 @@ package apps.tabngo.debug;
 
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -17,7 +16,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-public class UnitTest_Jun14 {
+public class UnitTest_Jun14 
+{
+	
 	public static void main(String[] args) 
 	{
 		for(int i=0;i<1000;i++)
@@ -28,11 +29,11 @@ public class UnitTest_Jun14 {
 		
 	}
 
-	private static String sendPost() {
-		//String url = "http://192.168.100.135:7070/api/order/save";
-		String url = "http://103.200.20.202:7070/api/order/save";
-		String requestResult = "";
-		InputStream inputStream = null;
+	private static void sendPost() {
+		String url = "http://192.168.100.135:7070/api/order/save";
+		//String url = "http://103.200.20.202:7070/api/order/save";
+//		String requestResult = "";
+//		InputStream inputStream = null;
 		
 		JSONObject json= new JSONObject();
 		
@@ -51,8 +52,10 @@ public class UnitTest_Jun14 {
 
 			httpPost.setHeader("username", "silkroadpacific");
 			httpPost.setHeader("password","123456");
-			//httpPost.setHeader("token","97eb2238eead6883392c105362bedbfd");
-			httpPost.setHeader("token","a72ee9591bb890d287ee6933df548492");
+			
+			httpPost.setHeader("token","97eb2238eead6883392c105362bedbfd");
+			
+			//httpPost.setHeader("token","a72ee9591bb890d287ee6933df548492");
 			// httpPost.setHeader("Content-type", "application/json");
 
 			HttpResponse httpResponse = httpclient.execute(httpPost);
@@ -63,7 +66,7 @@ public class UnitTest_Jun14 {
 			e.printStackTrace();
 		}
 
-		return requestResult;
+		//return requestResult;
 	}
 
 	private static void print(HttpResponse res) throws Exception {
@@ -77,15 +80,15 @@ public class UnitTest_Jun14 {
 
 	}
 
-	private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-		String line = "";
-		String result = "";
-		while ((line = bufferedReader.readLine()) != null)
-			result += line;
-
-		inputStream.close();
-		return result;
-
-	}
+//	private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+//		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//		String line = "";
+//		String result = "";
+//		while ((line = bufferedReader.readLine()) != null)
+//			result += line;
+//
+//		inputStream.close();
+//		return result;
+//
+//	}
 }
