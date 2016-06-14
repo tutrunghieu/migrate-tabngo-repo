@@ -18,8 +18,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 public class UnitTest_Jun14 {
-	public static void main(String[] args) {
-		for(int i=0;i<1000;i++){
+	public static void main(String[] args) 
+	{
+		for(int i=0;i<1000;i++)
+		{
 			System.out.println("time="+i);
 			sendPost();
 		}
@@ -27,7 +29,8 @@ public class UnitTest_Jun14 {
 	}
 
 	private static String sendPost() {
-		String url = "http://192.168.100.135:7070/api/order/save";
+		//String url = "http://192.168.100.135:7070/api/order/save";
+		String url = "http://103.200.20.202:7070/api/order/save";
 		String requestResult = "";
 		InputStream inputStream = null;
 		
@@ -48,7 +51,8 @@ public class UnitTest_Jun14 {
 
 			httpPost.setHeader("username", "silkroadpacific");
 			httpPost.setHeader("password","123456");
-			httpPost.setHeader("token","97eb2238eead6883392c105362bedbfd");
+			//httpPost.setHeader("token","97eb2238eead6883392c105362bedbfd");
+			httpPost.setHeader("token","a72ee9591bb890d287ee6933df548492");
 			// httpPost.setHeader("Content-type", "application/json");
 
 			HttpResponse httpResponse = httpclient.execute(httpPost);
