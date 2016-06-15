@@ -24,6 +24,9 @@ public class cmd extends CommandTarget
 	
 	public static void main(String[] args) throws Exception 
 	{
+//		args = CommandTarget.debugParams("mongo-replace -show true -db TabnGo  -out $/out-dump.txt "
+//				+ "-rfrom http://103.200.20.192:7070/ "
+//				+ "-rto http://103.200.20.202:7070/");		
 		
 		TargetController tar = findTargetController(args[0]);
 		
