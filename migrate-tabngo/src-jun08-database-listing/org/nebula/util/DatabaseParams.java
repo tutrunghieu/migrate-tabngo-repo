@@ -9,18 +9,19 @@ public class DatabaseParams
 {
 	public String __host;
 	public String __port;
-	public String __dbname;
+	public String __db;
 	public String __out;
 	public String __show;
 	public String __cmp;
 	public String __war;
 	public String __in;
 	
+	public String __rfrom;
+	public String __rto;
+	
 	public String __sfile;
 	public String __tfile;
 	
-	public String __strA;
-	public String __strB;
 
 	public DatabaseParams(String[] args) throws Exception 
 	{
@@ -85,7 +86,7 @@ public class DatabaseParams
 	
 	public String getDatabaseName(String db)
 	{
-		return __dbname==null ? db : __dbname;
+		return __db==null ? db : __db;
 	}
 
 	public File getOutputFile() 
@@ -124,12 +125,12 @@ public class DatabaseParams
 
 	public String getReplaceFrom() 
 	{
-		return __strA;
+		return __rfrom;
 	}
 
 	public String getReplaceTo() 
 	{
-		return __strB;
+		return __rto;
 	}
 
 	public File getFile(String nk) 

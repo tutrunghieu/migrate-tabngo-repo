@@ -15,14 +15,15 @@ public class cmd extends CommandTarget
 //	args = ("mongo-dsum -show true  -db TabnGo -out $/out-dump.txt  "
 //			+ "-rfrom http://192.168.100.60:7070/ "
 //			+ "-rto http://hoang.dinh.hung.com:7070/").split("\\s+");
+
+//	args = CommandTarget.debugParams("cmp-files "
+//	+ "-show true "
+//	+ "-out $/out1.txt "
+//	+ "-sfile $/migrate-tabngo.jar "
+//	+ "-tfile $/migrate-tabngo.jar");
 	
 	public static void main(String[] args) throws Exception 
 	{
-		args = CommandTarget.debugParams("cmp-files "
-				+ "-show true "
-				+ "-out $/out1.txt "
-				+ "-sfile $/migrate-tabngo.jar "
-				+ "-tfile $/migrate-tabngo.jar");
 		
 		TargetController tar = findTargetController(args[0]);
 		
